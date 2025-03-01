@@ -3,12 +3,17 @@ package com.example.contactos
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactos.data.Contact
+import com.example.contactos.data.ContactDbHelper
 import com.google.android.material.textview.MaterialTextView
 
-class ContactAdapter(private var contacts: List<Contact>) :
-    RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
+class ContactAdapter(
+    private var contacts: MutableList<Contact>,
+    private val dbHelper: ContactDbHelper,
+    private val context: android.content.Context  // Add context parameter
+) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val avatarText: MaterialTextView = view.findViewById(R.id.avatarText)
@@ -31,8 +36,21 @@ class ContactAdapter(private var contacts: List<Contact>) :
 
     override fun getItemCount() = contacts.size
 
+    fun deleteContact(position: Int) {
+        val contact = contacts[position]
+        if (dbHelper.deleteContact(contact.id)) {
+            contacts.removeAt(position)
+            notifyItemRemoved(position)
+            Toast.makeText(
+                context,  // Use the context parameter instead of dbHelper.context
+                "${contact.name} was successfully deleted",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     fun updateContacts(newContacts: List<Contact>) {
-        contacts = newContacts
+        contacts = newContacts.toMutableList()
         notifyDataSetChanged()
     }
 }

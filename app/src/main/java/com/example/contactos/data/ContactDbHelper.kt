@@ -40,7 +40,11 @@ class ContactDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         }
         return db.insert(TABLE_NAME, null, values)
     }
-
+// Add this method to the existing ContactDbHelper class
+fun deleteContact(id: Long): Boolean {
+    val db = this.writableDatabase
+    return db.delete(TABLE_NAME, "$COLUMN_ID = ?", arrayOf(id.toString())) > 0
+}
     fun getAllContacts(): List<Contact> {
         val contacts = mutableListOf<Contact>()
         val db = this.readableDatabase

@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactos.data.ContactDbHelper
@@ -23,9 +24,16 @@ class MainActivity : AppCompatActivity() {
         dbHelper = ContactDbHelper(this)
         
         val recyclerView = findViewById<RecyclerView>(R.id.contactsRecyclerView)
-        adapter = ContactAdapter(emptyList())
+        // In onCreate method
+        adapter = ContactAdapter(mutableListOf(), dbHelper, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+
+        // Add swipe-to-delete functionality
+        // In onCreate method, update the swipe handler creation
+        val swipeHandler = SwipeToDeleteCallback(adapter, this)
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
