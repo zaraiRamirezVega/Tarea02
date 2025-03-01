@@ -40,4 +40,29 @@ class ContactDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         }
         return db.insert(TABLE_NAME, null, values)
     }
+
+    fun getAllContacts(): List<Contact> {
+        val contacts = mutableListOf<Contact>()
+        val db = this.readableDatabase
+        val cursor = db.query(
+            TABLE_NAME,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "$COLUMN_NAME ASC"
+        )
+    
+        with(cursor) {
+            while (moveToNext()) {
+                val id = getLong(getColumnIndexOrThrow(COLUMN_ID))
+                val name = getString(getColumnIndexOrThrow(COLUMN_NAME))
+                val number = getString(getColumnIndexOrThrow(COLUMN_NUMBER))
+                contacts.add(Contact(id, name, number))
+            }
+        }
+        cursor.close()
+        return contacts
+    }
 }
