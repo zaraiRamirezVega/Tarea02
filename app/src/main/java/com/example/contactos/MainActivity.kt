@@ -46,13 +46,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        // Set up FAB click listener
         fab.setOnClickListener {
             navigateToAddContact()
         }
 
-        // Set up empty view button click listener
         emptyView.findViewById<MaterialButton>(R.id.addContactButton).setOnClickListener {
             navigateToAddContact()
         }

@@ -70,14 +70,15 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
-
+                android:layout_marginBottom="16dp"
+                app:errorEnabled="true">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/numberInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Numero de telefono"
-                    android:inputType="phone" />
+                    android:inputType="number"
+                    android:maxLength="9" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.appbar.CollapsingToolbarLayout

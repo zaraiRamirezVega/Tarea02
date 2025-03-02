@@ -30,17 +30,22 @@ class ContactFormActivity : AppCompatActivity() {
             val name = nameInput.text?.toString()?.trim()
             val number = numberInput.text?.toString()?.trim()
 
-            if (name.isNullOrEmpty() || number.isNullOrEmpty()) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            if (name.isNullOrEmpty()) {
+                nameInput.error = "Porfavor entra el nombre"
+                return@setOnClickListener
+            }
+
+            if (number.isNullOrEmpty() || number.length != 9) {
+                numberInput.error = "El numero de telefono debe tener 9 digitos"
                 return@setOnClickListener
             }
 
             val id = dbHelper.addContact(name, number)
             if (id != -1L) {
-                Toast.makeText(this, "Contact saved successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Contacto guardado exitosamente", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                Toast.makeText(this, "Error saving contact", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error guardando el contacto", Toast.LENGTH_SHORT).show()
             }
         }
     }

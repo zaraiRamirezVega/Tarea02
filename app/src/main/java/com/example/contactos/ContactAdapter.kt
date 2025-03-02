@@ -42,8 +42,8 @@ class ContactAdapter(
             contacts.removeAt(position)
             notifyItemRemoved(position)
             Toast.makeText(
-                context,  // Use the context parameter instead of dbHelper.context
-                "${contact.name} was successfully deleted",
+                context,
+                "${contact.name} se elimino con exito",
                 Toast.LENGTH_SHORT
             ).show()
         }
